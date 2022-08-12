@@ -30,9 +30,8 @@ func (this *MyLinkedList) Get(index int) int {
 		return -1
 	}
 
-	cur := this.dummy.Next
-	for index > 0 {
-		index--
+	cur := this.dummy
+	for i := 0; i <= index; i++ {
 		cur = cur.Next
 	}
 
@@ -45,7 +44,6 @@ func (this *MyLinkedList) AddAtHead(val int) {
 	newNode := &Node{
 		Val:  val,
 		Next: curHead,
-		Pre:  this.dummy,
 	}
 
 	this.dummy.Next = newNode
@@ -54,18 +52,15 @@ func (this *MyLinkedList) AddAtHead(val int) {
 
 func (this *MyLinkedList) AddAtTail(val int) {
 
-	cur := this.dummy.Next
+	cur := this.dummy
 	for cur.Next != nil {
 		cur = cur.Next
 	}
 
-	node := &Node{
+	cur.Next = &Node{
 		Val:  val,
 		Next: nil,
-		Pre:  cur,
 	}
-
-	cur.Next = node
 	this.size++
 }
 
@@ -80,17 +75,18 @@ func (this *MyLinkedList) AddAtIndex(index int, val int) {
 		return
 	}
 
-	cur := this.dummy.Next
+	node := Node{
+		Val:  val,
+		Next: nil,
+	}
+
+	cur := this.dummy
 	for index > 0 {
 		index--
 		cur = cur.Next
 	}
-	node := Node{
-		Val:  val,
-		Next: cur,
-		Pre:  cur.Pre,
-	}
-	cur.Pre.Next = &node
+	node.Next = cur.Next
+	cur.Next = &node
 	this.size++
 }
 
@@ -99,13 +95,14 @@ func (this *MyLinkedList) DeleteAtIndex(index int) {
 		return
 	}
 
-	cur := this.dummy.Next
+	cur := this.dummy
 	for index > 0 {
 		index--
 		cur = cur.Next
 	}
 
-	cur.Pre.Next = cur.Next
+	cur.Next = cur.Next.Next
+	this.size--
 }
 
 /**
