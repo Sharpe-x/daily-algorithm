@@ -30,3 +30,15 @@ func swapPairs(head *ListNode) *ListNode {
 
 	return dummyHead.Next
 }
+
+func swapParisRec(head *ListNode) *ListNode {
+	if head == nil || head.Next == nil {
+		return head
+	}
+
+	next := head.Next
+	head.Next = swapParisRec(next.Next)
+	next.Next = head
+
+	return next
+}
