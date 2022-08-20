@@ -55,3 +55,16 @@ func getAns(n int) int {
 	}
 	return sum
 }
+
+func twoSum(nums []int, target int) []int {
+
+	numsMap := make(map[int]int)
+	for i, v := range nums {
+		if id, ok := numsMap[target-v]; ok {
+			return []int{id, i}
+		}
+		numsMap[v] = i
+	}
+
+	return []int{}
+}
