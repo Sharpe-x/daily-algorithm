@@ -216,3 +216,37 @@ func reverse(pre, cur *ListNode) *ListNode {
 
 	return reverse(cur, next)
 }
+
+func swapPairs(head *ListNode) *ListNode {
+
+	dummyHead := &ListNode{
+		Val:  -1,
+		Next: head,
+	}
+
+	pre := dummyHead
+	for pre.Next != nil && pre.Next.Next != nil {
+		node1, node2 := pre.Next, pre.Next.Next
+		next := node2.Next
+
+		pre.Next = node2
+		node2.Next = node1
+		node1.Next = next
+
+		pre = node1
+	}
+
+	return dummyHead.Next
+}
+
+func swapPairsRec(head *ListNode) *ListNode {
+	if head == nil || head.Next == nil {
+		return head
+	}
+
+	next := head.Next
+	head.Next = swapPairsRec(next.Next)
+	next.Next = head
+
+	return next
+}
