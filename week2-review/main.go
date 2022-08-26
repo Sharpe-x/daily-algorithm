@@ -250,3 +250,78 @@ func swapPairsRec(head *ListNode) *ListNode {
 
 	return next
 }
+
+func removeNthFromEnd(head *ListNode, n int) *ListNode {
+	dummyHead := &ListNode{
+		Val:  -1,
+		Next: head,
+	}
+
+	slow, fast := dummyHead, dummyHead
+	for n > 0 {
+		fast = fast.Next
+		n--
+	}
+
+	for fast != nil && fast.Next != nil {
+		fast = fast.Next
+		slow = slow.Next
+	}
+
+	del := slow.Next
+	next := del.Next
+
+	slow.Next = next
+	del.Next = nil
+
+	return dummyHead.Next
+}
+
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func getIntersectionNode(headA, headB *ListNode) *ListNode {
+	var lenA int
+	curA := headA
+	for curA != nil {
+		lenA++
+		curA = curA.Next
+	}
+
+	var lenB int
+	curB := headB
+	for curB != nil {
+		lenB++
+		curB = curB.Next
+	}
+
+	curA, curB = headA, headB
+	if lenA > lenB {
+		for lenA-lenB > 0 {
+			curA = curA.Next
+			lenA--
+		}
+	} else {
+		for lenB-lenA > 0 {
+			curB = curB.Next
+			lenB--
+		}
+	}
+
+	for curA != nil && curB != nil {
+		if curA == curB {
+			return curA
+		}
+
+		curA = curA.Next
+		curB = curB.Next
+
+	}
+
+	return nil
+
+}
