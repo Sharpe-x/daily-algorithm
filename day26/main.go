@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	fmt.Println(removeDuplicates("abbaca"))
+	fmt.Println(removeDuplicates("abbbaca"))
 }
 
 type MyStack struct {
