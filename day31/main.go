@@ -119,3 +119,70 @@ func rightSideView(root *TreeNode) []int {
 	}
 	return ans
 }
+
+// 637 二叉树的层平均值
+func averageOfLevels(root *TreeNode) []float64 {
+	var ans []float64
+	queue := list.New()
+	if root != nil {
+		queue.PushBack(root)
+	}
+	for queue.Len() != 0 {
+		levelNum := queue.Len()
+		sum, len := 0, levelNum
+
+		for levelNum > 0 {
+			node := queue.Remove(queue.Front()).(*TreeNode)
+			sum += node.Val
+			levelNum--
+
+			if node.Left != nil {
+				queue.PushBack(node.Left)
+			}
+
+			if node.Right != nil {
+				queue.PushBack(node.Right)
+			}
+
+		}
+
+		ans = append(ans, float64(sum)/float64(len))
+	}
+
+	return ans
+}
+
+type Node struct {
+	Val      int
+	Children []*Node
+}
+
+//429. N 叉树的层序遍历
+func levelOrder429(root *Node) [][]int {
+	var ans [][]int
+
+	queue := list.New()
+	if root != nil {
+		queue.PushBack(root)
+	}
+
+	for queue.Len() != 0 {
+		levelNum := queue.Len()
+		var levelAns []int
+		for levelNum > 0 {
+			node := queue.Remove(queue.Front()).(*Node)
+			levelNum--
+			levelAns = append(levelAns, node.Val)
+
+			for _, v := range node.Children {
+				if v != nil {
+					queue.PushBack(v)
+				}
+			}
+		}
+		ans = append(ans, levelAns)
+
+	}
+
+	return ans
+}
